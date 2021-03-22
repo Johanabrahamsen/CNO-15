@@ -5,10 +5,10 @@ grammar cheese;
 program: statement* EOF;
 
 statement:  expression '$' | conditional  |
-        'doOn(' expression '){' statement* '}' | 'loop[' INT ']times{' statement* '}'| method;
+        'doOn(' expression '){' statement* '}' | 'loop[' INT ']times{' statement* '}'| function;
 
 expression: '(' expression ')'
-                      | DECLARATION? IDENTIFIER ASSIGNER expression
+                      | DECLARATION? IDENTIFIER ASSIGNER (expression | function)
                       | expression MUL_OPS expression
                       | expression OPERATORS expression
                       | expression INC_OP
@@ -25,7 +25,7 @@ expression: '(' expression ')'
 
 conditional: ('condition(' expression '){'statement*'}')+ ('notMet{' statement* '}')?;
 
-method: DECLARATION? ' ' IDENTIFIER '(' (DECLARATION ' ' IDENTIFIER)* '){' statement* ('result ' expression)? '}';
+function: DECLARATION? IDENTIFIER '(' (DECLARATION IDENTIFIER)* '){' statement* ('result ' expression)? '}';
 
 OPERATORS:  'add' | 'minus' ;
 MUL_OPS: 'times' | 'div' ;
