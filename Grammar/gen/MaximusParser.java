@@ -334,11 +334,13 @@ public class MaximusParser extends Parser {
 		}
 	}
 	public static class ExCompareIdContext extends ExpressionContext {
+		public Token left;
+		public Token right;
+		public TerminalNode COMPARATORS() { return getToken(MaximusParser.COMPARATORS, 0); }
 		public List<TerminalNode> IDENTIFIER() { return getTokens(MaximusParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(MaximusParser.IDENTIFIER, i);
 		}
-		public TerminalNode COMPARATORS() { return getToken(MaximusParser.COMPARATORS, 0); }
 		public ExCompareIdContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -372,8 +374,10 @@ public class MaximusParser extends Parser {
 		}
 	}
 	public static class ExCompareExContext extends ExpressionContext {
-		public TerminalNode IDENTIFIER() { return getToken(MaximusParser.IDENTIFIER, 0); }
+		public Token left;
+		public ExpressionContext right;
 		public TerminalNode COMPARATORS() { return getToken(MaximusParser.COMPARATORS, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(MaximusParser.IDENTIFIER, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -393,13 +397,15 @@ public class MaximusParser extends Parser {
 		}
 	}
 	public static class ExAddContext extends ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
+		public TerminalNode OPERATORS() { return getToken(MaximusParser.OPERATORS, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode OPERATORS() { return getToken(MaximusParser.OPERATORS, 0); }
 		public ExAddContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -470,13 +476,15 @@ public class MaximusParser extends Parser {
 		}
 	}
 	public static class ExMulContext extends ExpressionContext {
+		public ExpressionContext left;
+		public ExpressionContext right;
+		public TerminalNode MUL_OPS() { return getToken(MaximusParser.MUL_OPS, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode MUL_OPS() { return getToken(MaximusParser.MUL_OPS, 0); }
 		public ExMulContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -646,11 +654,11 @@ public class MaximusParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(60);
-				match(IDENTIFIER);
+				((ExCompareIdContext)_localctx).left = match(IDENTIFIER);
 				setState(61);
 				match(COMPARATORS);
 				setState(62);
-				match(IDENTIFIER);
+				((ExCompareIdContext)_localctx).right = match(IDENTIFIER);
 				}
 				break;
 			case 4:
@@ -659,11 +667,11 @@ public class MaximusParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(63);
-				match(IDENTIFIER);
+				((ExCompareExContext)_localctx).left = match(IDENTIFIER);
 				setState(64);
 				match(COMPARATORS);
 				setState(65);
-				expression(7);
+				((ExCompareExContext)_localctx).right = expression(7);
 				}
 				break;
 			case 5:
@@ -764,25 +772,27 @@ public class MaximusParser extends Parser {
 					case 1:
 						{
 						_localctx = new ExMulContext(new ExpressionContext(_parentctx, _parentState));
+						((ExMulContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(83);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(84);
 						match(MUL_OPS);
 						setState(85);
-						expression(12);
+						((ExMulContext)_localctx).right = expression(12);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new ExAddContext(new ExpressionContext(_parentctx, _parentState));
+						((ExAddContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(86);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(87);
 						match(OPERATORS);
 						setState(88);
-						expression(11);
+						((ExAddContext)_localctx).right = expression(11);
 						}
 						break;
 					case 3:

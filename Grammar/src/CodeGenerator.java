@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class CodeGenerator extends MaximusBaseVisitor<Void>{
     private ParseTreeProperty<DataType> types;
     private ByteCode byteCode;
+    private int storeCount = 0;
 
     public CodeGenerator(ParseTreeProperty<DataType> types, ByteCode byteCode) {
         this.types = types;
@@ -50,12 +51,14 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExAdd(MaximusParser.ExAddContext ctx) {
-        visit(ctx.)
-        if("add".equals(ctx.getText())){
-
-            iadd
+        visit(ctx.left);
+        visit(ctx.right);
+        if("add".equals(ctx.OPERATORS().getText())){
+            byteCode.add("iadd");
+        } else {
+            byteCode.add("isub");
         }
-        return super.visitExAdd(ctx);
+        return null;
     }
 
     @Override
@@ -65,7 +68,15 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExInc(MaximusParser.ExIncContext ctx) {
-        return super.visitExInc(ctx);
+        visit(ctx.expression());
+        byteCode.add("istore " + storeCount);
+        if("increm".equals(ctx.INC_OP().getText())){
+            byteCode.add("iinc " + storeCount + " 1");
+        } else {
+            byteCode.add("iinc " + storeCount + " -1");
+        }
+        storeCount++;
+        return null;
     }
 
     @Override
@@ -76,7 +87,14 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExMul(MaximusParser.ExMulContext ctx) {
-        return super.visitExMul(ctx);
+        visit(ctx.left);
+        visit(ctx.right);
+        if("times".equals(ctx.MUL_OPS().getText())){
+            byteCode.add("imul");
+        } else{
+            byteCode.add("idiv");
+        }
+        return null;
     }
 
     @Override

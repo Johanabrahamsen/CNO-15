@@ -13,7 +13,7 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("1$ \n 2$");
+        generateByteCode("1 increm$ \n 2 decrem$");
 
     }
 
