@@ -36,6 +36,10 @@ public class ByteCode {
     public List<String> getLines() {
         return jasminCode;
     }
+
+    public ArrayList<String> getJasminCode() {
+        return jasminCode;
+    }
 }
 
 

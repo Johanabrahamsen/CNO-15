@@ -1,4 +1,7 @@
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
+import java.util.ArrayList;
 
 public class CodeGenerator extends MaximusBaseVisitor<Void>{
     private ParseTreeProperty<DataType> types;
@@ -32,6 +35,11 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExBool(MaximusParser.ExBoolContext ctx) {
+        if("valid".equals(ctx.getText())){
+            byteCode.add("ldc 1");
+        } else {
+            byteCode.add("ldc 0");
+        }
         return super.visitExBool(ctx);
     }
 
@@ -42,6 +50,11 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExAdd(MaximusParser.ExAddContext ctx) {
+        visit(ctx.)
+        if("add".equals(ctx.getText())){
+
+            iadd
+        }
         return super.visitExAdd(ctx);
     }
 
@@ -57,6 +70,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExString(MaximusParser.ExStringContext ctx) {
+        byteCode.add("ldc " + ctx.getText());
         return super.visitExString(ctx);
     }
 
@@ -67,6 +81,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExInt(MaximusParser.ExIntContext ctx) {
+        byteCode.add("ldc " + ctx.getText());
         return super.visitExInt(ctx);
     }
 
@@ -82,6 +97,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExDouble(MaximusParser.ExDoubleContext ctx) {
+        byteCode.add("ldc2_w " + ctx.getText());
         return super.visitExDouble(ctx);
     }
 
@@ -94,4 +110,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     public Void visitFunction(MaximusParser.FunctionContext ctx) {
         return super.visitFunction(ctx);
     }
+
+
 }
