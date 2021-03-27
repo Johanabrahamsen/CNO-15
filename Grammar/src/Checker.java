@@ -2,10 +2,6 @@ import org.antlr.v4.runtime.tree.*;
 
 import java.util.concurrent.CompletionException;
 
-/**
- * Visitor that determines the data types of expressions and selectively associates
- * the datatype with the parse tree node in the ParseTreeProperty.
- */
 public class Checker extends MaximusBaseVisitor<DataType> {
 	private ParseTreeProperty<DataType> types;
 	private ParseTreeProperty<Symbol> symbols;
@@ -16,11 +12,6 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		this.types = types;
 		this.symbols = symbols;
 	}
-
-	public ParseTreeProperty<DataType> getTypes() {
-		return this.types;
-	}
-
 
 	@Override
 	public DataType visitScope(MaximusParser.ScopeContext ctx) {
@@ -105,7 +96,12 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		}else if(currentScope.CheckIfInScope(name) == null && ctx.DECLARATION() != null){
 			DataType type = getDataTypeFromContext(ctx);
 			localnums++;
-			currentScope.declareVariable(new Symbol(name,type,localnums));
+			Symbol s = new Symbol(name,type,localnums);
+			if(type == DataType.DOUBLE){
+				localnums++;
+			}
+			currentScope.declareVariable(s);
+			symbols.put(ctx, s);
 		}
 		return null;
 	}
@@ -136,8 +132,9 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 	public DataType visitExId(MaximusParser.ExIdContext ctx) {
 		Symbol symbol = currentScope.CheckIfInScope(ctx.IDENTIFIER().getText());
 		if(symbol == null){
-			throw new CompilerException("Variable not declared!");
+			throw new CompilerException("Variable " + ctx.IDENTIFIER().getText() + " not declared or out of scope!");
 		}
+		symbols.put(ctx,symbol);
 		return addType(ctx, symbol.getType());
 	}
 
@@ -177,6 +174,14 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		types.put(node, type);
 		return type;
 	}
+
+	@Override
+	public DataType visitParameter(MaximusParser.ParameterContext ctx) {
+		return super.visitParameter(ctx);
+	}
+
+
+
 
 	private DataType getDataTypeFromContext(MaximusParser.FunctionContext ctx){
 		DataType type = null;

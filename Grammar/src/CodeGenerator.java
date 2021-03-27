@@ -63,7 +63,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         } else {
             byteCode.add("ldc 0");
         }
-        return super.visitExBool(ctx);
+        return null;
     }
 
     @Override
@@ -86,7 +86,15 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExId(MaximusParser.ExIdContext ctx) {
-        return super.visitExId(ctx);
+        Symbol s = symbols.get(ctx);
+        if( s.getType() == DataType.INT || s.getType() == DataType.BOOLEAN){
+            byteCode.add("iload" + s.getStoreNr());
+        }else if (s.getType() == DataType.DOUBLE){
+            byteCode.add("dload" + s.getStoreNr());
+        }else if (s.getType() == DataType.STRING){
+
+        }
+        return null;
     }
 
     @Override
@@ -105,7 +113,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     @Override
     public Void visitExString(MaximusParser.ExStringContext ctx) {
         byteCode.add("ldc " + ctx.getText());
-        return super.visitExString(ctx);
+        return null;
     }
 
     @Override
@@ -123,7 +131,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     @Override
     public Void visitExInt(MaximusParser.ExIntContext ctx) {
         byteCode.add("ldc " + ctx.getText());
-        return super.visitExInt(ctx);
+        return null;
     }
 
     @Override
@@ -139,12 +147,17 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     @Override
     public Void visitExDouble(MaximusParser.ExDoubleContext ctx) {
         byteCode.add("ldc2_w " + ctx.getText());
-        return super.visitExDouble(ctx);
+        return null;
     }
 
     @Override
     public Void visitConditional(MaximusParser.ConditionalContext ctx) {
         return super.visitConditional(ctx);
+    }
+
+    @Override
+    public Void visitCondition(MaximusParser.ConditionContext ctx) {
+        return super.visitCondition(ctx);
     }
 
     @Override

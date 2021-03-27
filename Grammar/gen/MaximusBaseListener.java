@@ -243,6 +243,30 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterWhileLoop(MaximusParser.WhileLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhileLoop(MaximusParser.WhileLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterForLoop(MaximusParser.ForLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForLoop(MaximusParser.ForLoopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterConditional(MaximusParser.ConditionalContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -250,6 +274,18 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConditional(MaximusParser.ConditionalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCondition(MaximusParser.ConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCondition(MaximusParser.ConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -274,6 +310,18 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParameter(MaximusParser.ParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameter(MaximusParser.ParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

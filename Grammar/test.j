@@ -1,7 +1,8 @@
-.class public Sum
+.class public test
 .super java/lang/Object
 
-ldc2_w 5.5
+ldc 5
+ldc 5
 iadd
 ldc 2
 istore 0

@@ -4,10 +4,10 @@ grammar Maximus;
 
 program: 'BEGIN' scope EOF;
 
-scope: '{' statement* ('result ' expression)?'}';
+scope: '('parameter*')' scope | '{' statement* ('result ' expression)?'}';
 
 statement:  expression '$' | conditional  |
-        'doOn(' expression ')' scope | 'loop[' INT ']times' scope | function;
+        whileLoop | forLoop | function;
 
 expression:             '(' expression ')'                                       #ExParentheses
                       | DECLARATION? IDENTIFIER ASSIGNER (expression | declaredFunction | scan) #ExAssigner
@@ -28,11 +28,19 @@ expression:             '(' expression ')'                                      
 
 scan: 'ask()';
 
-conditional: ('condition(' expression ')' scope)+ ('notMet' scope)?;
+whileLoop:'doOn(' expression ')' scope;
 
-function: mainDec=DECLARATION? mainId=IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')' scope;
+forLoop: 'loop[' INT ']times' scope | function;
 
-declaredFunction: mainId=IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')';
+conditional: condition+;
+
+condition: 'condition(' expression ')' scope | ('notMet' scope);
+
+function: mainDec=DECLARATION? mainId=IDENTIFIER scope;
+
+declaredFunction: mainId=IDENTIFIER '('parameter*')';
+
+parameter: DECLARATION IDENTIFIER (',')?;
 
 print: 'showString(' STRING ')';
 

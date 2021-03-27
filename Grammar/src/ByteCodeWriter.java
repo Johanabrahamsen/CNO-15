@@ -13,7 +13,7 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("BEGIN{\n num a is 5.5$\n booly b is valid$ \n a add b $ \n 2 decrem$}");
+        generateByteCode("BEGIN{\n num a is 5$\n booly b is valid$ \n num getc(){num c is 5$ \n a add c$} \n \n 2 decrem$}");
 
     }
 
@@ -59,7 +59,7 @@ public class ByteCodeWriter {
             // Write to file
             PrintWriter out = new PrintWriter(new File("test.j"));
 
-            out.println(".class public Sum");
+            out.println(".class public test");
             out.println(".super java/lang/Object");
             out.println();
 

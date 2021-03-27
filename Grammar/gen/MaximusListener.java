@@ -227,6 +227,26 @@ public interface MaximusListener extends ParseTreeListener {
 	 */
 	void exitScan(MaximusParser.ScanContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MaximusParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileLoop(MaximusParser.WhileLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#whileLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileLoop(MaximusParser.WhileLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MaximusParser#forLoop}.
+	 * @param ctx the parse tree
+	 */
+	void enterForLoop(MaximusParser.ForLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#forLoop}.
+	 * @param ctx the parse tree
+	 */
+	void exitForLoop(MaximusParser.ForLoopContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MaximusParser#conditional}.
 	 * @param ctx the parse tree
 	 */
@@ -236,6 +256,16 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConditional(MaximusParser.ConditionalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MaximusParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(MaximusParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(MaximusParser.ConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MaximusParser#function}.
 	 * @param ctx the parse tree
@@ -256,6 +286,16 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MaximusParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameter(MaximusParser.ParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameter(MaximusParser.ParameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MaximusParser#print}.
 	 * @param ctx the parse tree
