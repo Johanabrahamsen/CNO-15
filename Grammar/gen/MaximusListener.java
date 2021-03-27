@@ -17,6 +17,16 @@ public interface MaximusListener extends ParseTreeListener {
 	 */
 	void exitProgram(MaximusParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MaximusParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void enterScope(MaximusParser.ScopeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#scope}.
+	 * @param ctx the parse tree
+	 */
+	void exitScope(MaximusParser.ScopeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MaximusParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -62,6 +72,18 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExBool(MaximusParser.ExBoolContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExPrint}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExPrint(MaximusParser.ExPrintContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExPrint}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExPrint(MaximusParser.ExPrintContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExCompareEx}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -110,6 +132,18 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExInc(MaximusParser.ExIncContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExScan}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExScan(MaximusParser.ExScanContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExScan}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExScan(MaximusParser.ExScanContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExString}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -183,6 +217,16 @@ public interface MaximusListener extends ParseTreeListener {
 	 */
 	void exitExDouble(MaximusParser.ExDoubleContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MaximusParser#scan}.
+	 * @param ctx the parse tree
+	 */
+	void enterScan(MaximusParser.ScanContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#scan}.
+	 * @param ctx the parse tree
+	 */
+	void exitScan(MaximusParser.ScanContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MaximusParser#conditional}.
 	 * @param ctx the parse tree
 	 */
@@ -202,4 +246,24 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(MaximusParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MaximusParser#declaredFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#declaredFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MaximusParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrint(MaximusParser.PrintContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MaximusParser#print}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrint(MaximusParser.PrintContext ctx);
 }

@@ -16,6 +16,12 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(MaximusParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MaximusParser#scope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScope(MaximusParser.ScopeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MaximusParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -42,6 +48,13 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExBool(MaximusParser.ExBoolContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExPrint}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExPrint(MaximusParser.ExPrintContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExCompareEx}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -70,6 +83,13 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExInc(MaximusParser.ExIncContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExScan}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExScan(MaximusParser.ExScanContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExString}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -113,6 +133,12 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExDouble(MaximusParser.ExDoubleContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MaximusParser#scan}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScan(MaximusParser.ScanContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MaximusParser#conditional}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,4 +150,16 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunction(MaximusParser.FunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#declaredFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#print}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint(MaximusParser.PrintContext ctx);
 }

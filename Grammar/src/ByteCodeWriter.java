@@ -13,14 +13,15 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("1 increm$ \n 2 decrem$");
+        generateByteCode("BEGIN{\n1 increm$ \n 2 decrem$}");
 
     }
 
     private static void generateByteCode(String line) {
         ByteCode b = new ByteCode("Test");
         ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
-        CodeGenerator c = new CodeGenerator(types, b);
+        ParseTreeProperty<Symbol> symbols = new ParseTreeProperty<>();
+        CodeGenerator c = new CodeGenerator(symbols, types, b);
 
         // Reset errors
         errors.clear();

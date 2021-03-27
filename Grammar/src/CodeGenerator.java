@@ -5,18 +5,40 @@ import java.util.ArrayList;
 
 public class CodeGenerator extends MaximusBaseVisitor<Void>{
     private ParseTreeProperty<DataType> types;
+    private ParseTreeProperty<Symbol> symbols;
     private ByteCode byteCode;
     private int storeCount = 0;
 
-    public CodeGenerator(ParseTreeProperty<DataType> types, ByteCode byteCode) {
+    public CodeGenerator(ParseTreeProperty<Symbol>symbols,ParseTreeProperty<DataType> types, ByteCode byteCode) {
         this.types = types;
         this.byteCode = byteCode;
+        this.symbols = symbols;
     }
 
     //:TODO Write ByteCode For all these
     @Override
     public Void visitProgram(MaximusParser.ProgramContext ctx) {
         return super.visitProgram(ctx);
+    }
+
+    @Override
+    public Void visitScope(MaximusParser.ScopeContext ctx) {
+        return super.visitScope(ctx);
+    }
+
+    @Override
+    public Void visitScan(MaximusParser.ScanContext ctx) {
+        return super.visitScan(ctx);
+    }
+
+    @Override
+    public Void visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx) {
+        return super.visitDeclaredFunction(ctx);
+    }
+
+    @Override
+    public Void visitPrint(MaximusParser.PrintContext ctx) {
+        return super.visitPrint(ctx);
     }
 
     @Override
@@ -60,6 +82,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         }
         return null;
     }
+
 
     @Override
     public Void visitExId(MaximusParser.ExIdContext ctx) {

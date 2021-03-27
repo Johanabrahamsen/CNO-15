@@ -2,13 +2,15 @@
 
 grammar Maximus;
 
-program: statement* EOF;
+program: 'BEGIN' scope EOF;
+
+scope: '{' statement* ('result ' expression)?'}';
 
 statement:  expression '$' | conditional  |
-        'doOn(' expression '){' statement* '}' | 'loop[' INT ']times{' statement* '}'| function;
+        'doOn(' expression ')' scope | 'loop[' INT ']times' scope | function;
 
-expression: '(' expression ')'                                                   #ExParentheses
-                      | DECLARATION? IDENTIFIER ASSIGNER (expression | function) #ExAssigner
+expression:             '(' expression ')'                                       #ExParentheses
+                      | DECLARATION? IDENTIFIER ASSIGNER (expression | declaredFunction | scan) #ExAssigner
                       | left=expression MUL_OPS right=expression                 #ExMul
                       | left=expression OPERATORS right=expression               #ExAdd
                       | expression INC_OP                                        #ExInc
@@ -20,11 +22,19 @@ expression: '(' expression ')'                                                  
                       | BOOLEAN                                                  #ExBool
                       | DOUBLE                                                   #ExDouble
                       | 'arr' IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #ExArray
+                      | print                                                    #ExPrint
+                      | scan                                                     #ExScan
                       ;
 
-conditional: ('condition(' expression '){'statement*'}')+ ('notMet{' statement* '}')?;
+scan: 'ask()';
 
-function: DECLARATION? IDENTIFIER '(' (DECLARATION IDENTIFIER)* '){' statement* ('result ' expression)? '}';
+conditional: ('condition(' expression ')' scope)+ ('notMet' scope)?;
+
+function: DECLARATION? IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')' scope;
+
+declaredFunction: IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')';
+
+print: 'showString(' STRING ')';
 
 OPERATORS:  'add' | 'minus' ;
 MUL_OPS: 'times' | 'div' ;
