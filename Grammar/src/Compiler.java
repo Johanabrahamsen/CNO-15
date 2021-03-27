@@ -42,8 +42,9 @@ public class Compiler {
             ParseTree tree = runParser(tokens);
 
             if( errorCount == 0){
-                //:TODO run checker
-
+                if(!runChecker(tree)){
+                    return null;
+                }
                 return generateCode(tree,className);
             }
 
@@ -85,6 +86,17 @@ public class Compiler {
        MaximusParser parser = new MaximusParser(tokens);
         parser.addErrorListener(getErrorListener());
         return parser.program();
+    }
+
+    private boolean runChecker( ParseTree parseTree ) {
+        try {
+            Checker checker = new Checker(types, symbols);
+            checker.visit(parseTree);
+            return true;
+        } catch (CompilerException ce) {
+            System.err.println(ce.getMessage());
+            return false;
+        }
     }
 
     private ANTLRErrorListener getErrorListener() {

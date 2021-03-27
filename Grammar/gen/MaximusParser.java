@@ -595,13 +595,14 @@ public class MaximusParser extends Parser {
 		}
 	}
 	public static class ExArrayContext extends ExpressionContext {
+		public Token mainId;
 		public TerminalNode ARRAY_TYPE() { return getToken(MaximusParser.ARRAY_TYPE, 0); }
+		public TerminalNode ASSIGNER() { return getToken(MaximusParser.ASSIGNER, 0); }
+		public TerminalNode OBJECT_INITIALIZER() { return getToken(MaximusParser.OBJECT_INITIALIZER, 0); }
 		public List<TerminalNode> IDENTIFIER() { return getTokens(MaximusParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(MaximusParser.IDENTIFIER, i);
 		}
-		public TerminalNode ASSIGNER() { return getToken(MaximusParser.ASSIGNER, 0); }
-		public TerminalNode OBJECT_INITIALIZER() { return getToken(MaximusParser.OBJECT_INITIALIZER, 0); }
 		public TerminalNode INT() { return getToken(MaximusParser.INT, 0); }
 		public ExArrayContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
@@ -810,7 +811,7 @@ public class MaximusParser extends Parser {
 				setState(77);
 				match(ARRAY_TYPE);
 				setState(78);
-				match(IDENTIFIER);
+				((ExArrayContext)_localctx).mainId = match(IDENTIFIER);
 				setState(79);
 				match(ASSIGNER);
 				setState(80);
@@ -1059,12 +1060,14 @@ public class MaximusParser extends Parser {
 	}
 
 	public static class FunctionContext extends ParserRuleContext {
+		public Token mainDec;
+		public Token mainId;
+		public ScopeContext scope() {
+			return getRuleContext(ScopeContext.class,0);
+		}
 		public List<TerminalNode> IDENTIFIER() { return getTokens(MaximusParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(MaximusParser.IDENTIFIER, i);
-		}
-		public ScopeContext scope() {
-			return getRuleContext(ScopeContext.class,0);
 		}
 		public List<TerminalNode> DECLARATION() { return getTokens(MaximusParser.DECLARATION); }
 		public TerminalNode DECLARATION(int i) {
@@ -1102,12 +1105,12 @@ public class MaximusParser extends Parser {
 			if (_la==DECLARATION) {
 				{
 				setState(119);
-				match(DECLARATION);
+				((FunctionContext)_localctx).mainDec = match(DECLARATION);
 				}
 			}
 
 			setState(122);
-			match(IDENTIFIER);
+			((FunctionContext)_localctx).mainId = match(IDENTIFIER);
 			setState(123);
 			match(T__9);
 			setState(128);
@@ -1144,6 +1147,7 @@ public class MaximusParser extends Parser {
 	}
 
 	public static class DeclaredFunctionContext extends ParserRuleContext {
+		public Token mainId;
 		public List<TerminalNode> IDENTIFIER() { return getTokens(MaximusParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(MaximusParser.IDENTIFIER, i);
@@ -1179,7 +1183,7 @@ public class MaximusParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(134);
-			match(IDENTIFIER);
+			((DeclaredFunctionContext)_localctx).mainId = match(IDENTIFIER);
 			setState(135);
 			match(T__9);
 			setState(140);

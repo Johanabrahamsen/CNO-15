@@ -1,9 +1,8 @@
 .class public Sum
 .super java/lang/Object
 
-ldc 1
-istore 0
-iinc 0 1
+ldc2_w 5.5
+iadd
 ldc 2
-istore 1
-iinc 1 -1
+istore 0
+iinc 0 -1

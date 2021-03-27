@@ -13,7 +13,7 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("BEGIN{\n1 increm$ \n 2 decrem$}");
+        generateByteCode("BEGIN{\n num a is 5.5$\n booly b is valid$ \n a add b $ \n 2 decrem$}");
 
     }
 
@@ -36,6 +36,14 @@ public class ByteCodeWriter {
         MaximusParser parser = new MaximusParser(tokens);
         setupErrorListener(parser);
         MaximusParser.ProgramContext parseTree = parser.program();
+
+        Checker checker = new Checker(types,symbols);
+        try{
+            checker.visit(parseTree);
+        } catch (CompilerException e){
+            System.err.println(e.getMessage());
+        }
+
 
         // Have there been errors? Bail out
         if (errors.size() > 0) {

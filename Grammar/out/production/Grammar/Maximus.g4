@@ -21,7 +21,7 @@ expression:             '(' expression ')'                                      
                       | STRING                                                   #ExString
                       | BOOLEAN                                                  #ExBool
                       | DOUBLE                                                   #ExDouble
-                      | 'arr' IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #ExArray
+                      | 'arr' mainId=IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #ExArray
                       | print                                                    #ExPrint
                       | scan                                                     #ExScan
                       ;
@@ -30,9 +30,9 @@ scan: 'ask()';
 
 conditional: ('condition(' expression ')' scope)+ ('notMet' scope)?;
 
-function: DECLARATION? IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')' scope;
+function: mainDec=DECLARATION? mainId=IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')' scope;
 
-declaredFunction: IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')';
+declaredFunction: mainId=IDENTIFIER '(' (DECLARATION IDENTIFIER)* ')';
 
 print: 'showString(' STRING ')';
 
