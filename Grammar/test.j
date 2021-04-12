@@ -2,8 +2,7 @@
 .super java/lang/Object
 
 ldc 5
-ldc 5
+istore 1
+iload 1
+ldc 6
 iadd
-ldc 2
-istore 0
-iinc 0 -1

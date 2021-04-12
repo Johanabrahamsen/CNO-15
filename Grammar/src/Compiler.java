@@ -8,7 +8,8 @@ import java.nio.file.Paths;
 
 public class Compiler {
     private ParseTreeProperty<DataType>types = new ParseTreeProperty<>();
-    private ParseTreeProperty<Symbol> symbols = new ParseTreeProperty<>();
+    private ParseTreeProperty<SymbolTable> symbols = new ParseTreeProperty<>();
+    private SymbolTable symbolTable = new SymbolTable(1);
 
     private int errorCount = 0;
 
@@ -90,7 +91,7 @@ public class Compiler {
 
     private boolean runChecker( ParseTree parseTree ) {
         try {
-            Checker checker = new Checker(types, symbols);
+            Checker checker = new Checker(types, symbols,symbolTable);
             checker.visit(parseTree);
             return true;
         } catch (CompilerException ce) {

@@ -51,25 +51,37 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExAssigner(MaximusParser.ExAssignerContext ctx) { }
+	@Override public void enterExCompareEx(MaximusParser.ExCompareExContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExAssigner(MaximusParser.ExAssignerContext ctx) { }
+	@Override public void exitExCompareEx(MaximusParser.ExCompareExContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExCompareId(MaximusParser.ExCompareIdContext ctx) { }
+	@Override public void enterExArray(MaximusParser.ExArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExCompareId(MaximusParser.ExCompareIdContext ctx) { }
+	@Override public void exitExArray(MaximusParser.ExArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExVariable(MaximusParser.ExVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExVariable(MaximusParser.ExVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -87,25 +99,25 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExPrint(MaximusParser.ExPrintContext ctx) { }
+	@Override public void enterAssignment(MaximusParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExPrint(MaximusParser.ExPrintContext ctx) { }
+	@Override public void exitAssignment(MaximusParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExCompareEx(MaximusParser.ExCompareExContext ctx) { }
+	@Override public void enterExCompareId(MaximusParser.ExCompareIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExCompareEx(MaximusParser.ExCompareExContext ctx) { }
+	@Override public void exitExCompareId(MaximusParser.ExCompareIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -123,13 +135,37 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExId(MaximusParser.ExIdContext ctx) { }
+	@Override public void enterExScan(MaximusParser.ExScanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExId(MaximusParser.ExIdContext ctx) { }
+	@Override public void exitExScan(MaximusParser.ExScanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDeclaration(MaximusParser.DeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclaration(MaximusParser.DeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExPrint(MaximusParser.ExPrintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExPrint(MaximusParser.ExPrintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -142,18 +178,6 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExInc(MaximusParser.ExIncContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExScan(MaximusParser.ExScanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExScan(MaximusParser.ExScanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -195,18 +219,6 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExArray(MaximusParser.ExArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExArray(MaximusParser.ExArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExParentheses(MaximusParser.ExParenthesesContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -238,6 +250,18 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitScan(MaximusParser.ScanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValue(MaximusParser.ValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValue(MaximusParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

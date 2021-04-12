@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class CodeGenerator extends MaximusBaseVisitor<Void>{
     private ParseTreeProperty<DataType> types;
-    private ParseTreeProperty<Symbol> symbols;
+    private ParseTreeProperty<SymbolTable> symbols;
     private ByteCode byteCode;
     private int storeCount = 0;
 
-    public CodeGenerator(ParseTreeProperty<Symbol>symbols,ParseTreeProperty<DataType> types, ByteCode byteCode) {
+    public CodeGenerator(ParseTreeProperty<SymbolTable>symbols,ParseTreeProperty<DataType> types, ByteCode byteCode) {
         this.types = types;
         this.byteCode = byteCode;
         this.symbols = symbols;
@@ -47,8 +47,50 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     }
 
     @Override
-    public Void visitExAssigner(MaximusParser.ExAssignerContext ctx) {
-        return super.visitExAssigner(ctx);
+    public Void visitAssignment(MaximusParser.AssignmentContext ctx) {
+        String name = ctx.IDENTIFIER().getText();
+        Symbol s = symbols.get(ctx).lookUp(name);
+        visit(ctx.value());
+
+        switch (types.get(ctx)){
+            case DOUBLE:
+                byteCode.add("dstore " + s.getStoreNr());
+                break;
+            case INT:
+            case BOOLEAN:
+                byteCode.add("istore " + s.getStoreNr());
+                break;
+            case STRING:
+                byteCode.add("astore " + s.getStoreNr());
+                break;
+            case OTHER:
+                throw new CompilerException("encountered unknown datatype for " + s.getName());
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitDeclaration(MaximusParser.DeclarationContext ctx) {
+        String name = ctx.IDENTIFIER().getText();
+        Symbol s = symbols.get(ctx).lookUp(name);
+        if(ctx.value() != null){
+            visit(ctx.value());
+        }
+        switch (types.get(ctx)){
+            case DOUBLE:
+                byteCode.add("dstore " + s.getStoreNr());
+                break;
+            case INT:
+            case BOOLEAN:
+                byteCode.add("istore " + s.getStoreNr());
+                break;
+            case STRING:
+                byteCode.add("astore " + s.getStoreNr());
+                break;
+            case OTHER:
+                throw new CompilerException("encountered unknown datatype for " + s.getName());
+        }
+        return null;
     }
 
     @Override
@@ -85,12 +127,13 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
 
     @Override
-    public Void visitExId(MaximusParser.ExIdContext ctx) {
-        Symbol s = symbols.get(ctx);
+    public Void visitExVariable(MaximusParser.ExVariableContext ctx) {
+        String name = ctx.IDENTIFIER().getText();
+        Symbol s = symbols.get(ctx).lookUp(name);
         if( s.getType() == DataType.INT || s.getType() == DataType.BOOLEAN){
-            byteCode.add("iload" + s.getStoreNr());
+            byteCode.add("iload " + s.getStoreNr());
         }else if (s.getType() == DataType.DOUBLE){
-            byteCode.add("dload" + s.getStoreNr());
+            byteCode.add("dload " + s.getStoreNr());
         }else if (s.getType() == DataType.STRING){
 
         }
@@ -164,6 +207,5 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     public Void visitFunction(MaximusParser.FunctionContext ctx) {
         return super.visitFunction(ctx);
     }
-
 
 }
