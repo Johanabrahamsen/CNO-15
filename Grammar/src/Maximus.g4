@@ -24,7 +24,7 @@ expression:             '(' expression ')'                                      
                       | IDENTIFIER                                               #exVariable
 
                       | 'arr' mainId=IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #exArray
-                      | print                                                    #exPrint
+                      | 'show(' expression ')'                                   #exPrint
                       | scan                                                     #exScan
                       ;
 
@@ -45,8 +45,6 @@ function: mainDec=DECLARATION? mainId=IDENTIFIER scope;
 declaredFunction: mainId=IDENTIFIER '('parameter*')';
 
 parameter: DECLARATION IDENTIFIER (',')?;
-
-print: 'show(' expression ')';
 
 OPERATORS:  'add' | 'minus' ;
 MUL_OPS: 'times' | 'div' ;

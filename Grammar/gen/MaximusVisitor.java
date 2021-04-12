@@ -193,10 +193,4 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParameter(MaximusParser.ParameterContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link MaximusParser#print}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrint(MaximusParser.PrintContext ctx);
 }

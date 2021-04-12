@@ -37,11 +37,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     }
 
     @Override
-    public Void visitPrint(MaximusParser.PrintContext ctx) {
-        return super.visitPrint(ctx);
-    }
-
-    @Override
     public Void visitStatement(MaximusParser.StatementContext ctx) {
         return super.visitStatement(ctx);
     }
@@ -95,7 +90,50 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 
     @Override
     public Void visitExCompareId(MaximusParser.ExCompareIdContext ctx) {
-        return super.visitExCompareId(ctx);
+        Symbol left = symbols.get(ctx).lookUp(ctx.left.getText());
+        Symbol right = symbols.get(ctx).lookUp(ctx.right.getText());
+        switch (left.getType()){
+            case INT, BOOLEAN ->
+                    {
+              byteCode.add("iload " + left.getStoreNr());
+              byteCode.add("iload " + right.getStoreNr());
+              if(left.getType() == DataType.INT | left.getType() == DataType.BOOLEAN ){
+                  if(ctx.COMPARATORS().getText().equals("equals")){
+                      byteCode.add("if_icmpeq");
+                  } else if (ctx.COMPARATORS().getText().equals("not_equals")){
+                      byteCode.add("if_icmpne");
+                  }
+              }
+              if(left.getType() == DataType.INT){
+                  if(ctx.COMPARATORS().getText().equals("bigger")){
+                      byteCode.add("if_icmpgt");
+                  }else if(ctx.COMPARATORS().getText().equals("smaller")){
+                      byteCode.add("if_icmplt");
+                  }
+              }
+            }
+            case DOUBLE -> {
+                byteCode.add("dload " + left.getStoreNr());
+                byteCode.add("ldc 10000.0");
+                byteCode.add("dmul");
+                byteCode.add("d2i");
+                byteCode.add("dload " + right.getStoreNr());
+                byteCode.add("ldc 10000.0");
+                byteCode.add("dmul");
+                byteCode.add("d2i");
+
+                if(ctx.COMPARATORS().getText().equals("equals")){
+                    byteCode.add("if_icmpeq");
+                } else if (ctx.COMPARATORS().getText().equals("not_equals")){
+                    byteCode.add("if_icmpne");
+                } else if(ctx.COMPARATORS().getText().equals("bigger")){
+                    byteCode.add("if_icmpgt");
+                }else if(ctx.COMPARATORS().getText().equals("smaller")){
+                    byteCode.add("if_icmplt");
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -208,4 +246,39 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         return super.visitFunction(ctx);
     }
 
+    @Override
+    public Void visitExPrint(MaximusParser.ExPrintContext ctx) {
+        byteCode.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
+        visit(ctx.expression());
+
+        switch (types.get(ctx.expression())) {
+            case DOUBLE:
+                byteCode.add("invokevirtual java/io/PrintStream/println(D)V");
+                break;
+            case INT:
+                byteCode.add("invokevirtual java/io/PrintStream/println(I)V");
+                break;
+            case STRING:
+                byteCode.add("java/io/PrintStream/println(Ljava/lang/String;)V");
+                break;
+            case OTHER:
+                throw new CompilerException("Unknown data type to be printed");
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitExScan(MaximusParser.ExScanContext ctx) {
+        return super.visitExScan(ctx);
+    }
+
+    @Override
+    public Void visitWhileLoop(MaximusParser.WhileLoopContext ctx) {
+        return super.visitWhileLoop(ctx);
+    }
+
+    @Override
+    public Void visitForLoop(MaximusParser.ForLoopContext ctx) {
+        return super.visitForLoop(ctx);
+    }
 }

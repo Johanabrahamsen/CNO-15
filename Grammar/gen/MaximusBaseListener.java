@@ -346,18 +346,6 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParameter(MaximusParser.ParameterContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrint(MaximusParser.PrintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrint(MaximusParser.PrintContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

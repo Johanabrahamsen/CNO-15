@@ -28,12 +28,8 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 
 	@Override
 	public DataType visitExBool(MaximusParser.ExBoolContext ctx) {
-		 return addType(ctx, DataType.BOOLEAN) ;
-	}
-
-	@Override
-	public DataType visitExPrint(MaximusParser.ExPrintContext ctx) {
-		return super.visitExPrint(ctx);
+		scopes.put(ctx,symbolTable);
+		return addType(ctx, DataType.BOOLEAN) ;
 	}
 
 	@Override
@@ -49,12 +45,14 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 
 	@Override
 	public DataType visitExInc(MaximusParser.ExIncContext ctx) {
+
 		return addType(ctx, DataType.INT);
 	}
 
 
 	@Override
 	public DataType visitExString(MaximusParser.ExStringContext ctx) {
+		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.STRING);
 	}
 
@@ -76,14 +74,10 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 
 	@Override
 	public DataType visitExInt(MaximusParser.ExIntContext ctx) {
+		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.INT);
 	}
 
-	@Override
-	public DataType visitExParentheses(MaximusParser.ExParenthesesContext ctx) {
-		DataType type = visit(ctx.expression());
-		return addType(ctx, type);
-	}
 
 	@Override
 	public DataType visitExDouble(MaximusParser.ExDoubleContext ctx) {
@@ -100,6 +94,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 			throw new CompilerException("Variable " + name + " is not declared!");
 		}
 		scopes.put(ctx, symbolTable);
+		types.put(ctx,s.getType());
 		return symbolTable.lookUp(name).getType();
 	}
 
@@ -147,7 +142,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 			throw new CompilerException("Variable " + ctx.IDENTIFIER().getText() + " not declared or out of scope!");
 		}
 		scopes.put(ctx,symbolTable);
-		return symbol.getType();
+		return addType(ctx,symbol.getType());
 	}
 
 	//:TODO check array
@@ -161,9 +156,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		if(symbolTable.lookUp(ctx.mainId.getText()) != null){
 			throw new CompilerException("Identifier already in use!");
 		} else {
-
 			return null;
-
 		}
 	}
 
@@ -181,10 +174,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		return type;
 	}
 
-	@Override
-	public DataType visitParameter(MaximusParser.ParameterContext ctx) {
-		return super.visitParameter(ctx);
-	}
+
 
 }
 

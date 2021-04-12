@@ -13,7 +13,7 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("BEGIN{\n num a is 5$\n a add 6$}");
+        generateByteCode("BEGIN{\n num a$\n a is 5$\n a add 6$ booly b is valid$ show(a)$ condition(a bigger b){}}");
 
     }
 

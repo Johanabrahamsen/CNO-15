@@ -318,14 +318,4 @@ public interface MaximusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParameter(MaximusParser.ParameterContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MaximusParser#print}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrint(MaximusParser.PrintContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MaximusParser#print}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrint(MaximusParser.PrintContext ctx);
 }
