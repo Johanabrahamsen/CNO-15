@@ -13,7 +13,11 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode("BEGIN{\n num a$\n a is 5$\n a add 6$ booly b is valid$ show(a)$ condition(a bigger b){}}");
+        generateByteCode("BEGIN{\nnum a is 20$" +
+                "doOn(a bigger 10){" +
+                "show(a)$" +
+                "a is (a minus 1)$" +
+                "}}");
 
     }
 
@@ -62,10 +66,19 @@ public class ByteCodeWriter {
 
             out.println(".class public test");
             out.println(".super java/lang/Object");
-            out.println();
+            out.println("");
+
+            // Main method
+            out.println(".method public static main([Ljava/lang/String;)V");
+            out.println(".limit stack 99");
+            out.println(".limit locals 99");
+            out.println("");
 
             for( String codeLine : b.getJasminCode() )
                 out.println(codeLine);
+
+            out.println("return");
+            out.println(".end method");
 
             out.close();
         } catch( IOException error ) {

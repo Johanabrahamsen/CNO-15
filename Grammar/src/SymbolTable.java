@@ -16,9 +16,6 @@ public class SymbolTable {
         return parentScope;
     }
 
-    public Symbol lookUpLocal(String name) {
-        return symbols.get(name);
-    }
 
     public Symbol lookUp(String name) {
         Symbol symbol = symbols.get(name);
@@ -72,6 +69,10 @@ public class SymbolTable {
                 break;
         }
         return d;
+    }
+
+    public int getNextIndex(){
+        return (nextIndex++);
     }
 
 

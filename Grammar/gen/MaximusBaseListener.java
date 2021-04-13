@@ -183,6 +183,18 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMultiCompare(MaximusParser.MultiCompareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiCompare(MaximusParser.MultiCompareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExString(MaximusParser.ExStringContext ctx) { }
 	/**
 	 * {@inheritDoc}

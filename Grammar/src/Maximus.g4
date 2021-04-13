@@ -22,7 +22,7 @@ expression:             '(' expression ')'                                      
                       | BOOLEAN                                                  #ExBool
                       | DOUBLE                                                   #ExDouble
                       | IDENTIFIER                                               #exVariable
-
+                      | left=expression LOGICALS right=expression                #multiCompare
                       | 'arr' mainId=IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #exArray
                       | 'show(' expression ')'                                   #exPrint
                       | scan                                                     #exScan
@@ -34,11 +34,11 @@ value: (expression | declaredFunction | scan);
 
 whileLoop:'doOn(' expression ')' scope;
 
-forLoop: 'loop[' INT ']times' scope | function;
+forLoop: 'loop[' INT ']times' scope;
 
 conditional: condition+;
 
-condition: 'condition(' expression ')' scope | ('notMet' scope);
+condition: 'condition(' expression ')' scope;
 
 function: mainDec=DECLARATION? mainId=IDENTIFIER scope;
 

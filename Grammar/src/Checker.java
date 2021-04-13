@@ -3,8 +3,8 @@ import org.antlr.v4.runtime.tree.*;
 import java.util.concurrent.CompletionException;
 
 public class Checker extends MaximusBaseVisitor<DataType> {
-	private ParseTreeProperty<DataType> types;
-	private ParseTreeProperty<SymbolTable> scopes;
+	private final ParseTreeProperty<DataType> types;
+	private final ParseTreeProperty<SymbolTable> scopes;
 	private SymbolTable symbolTable;
 
 	public Checker(ParseTreeProperty<DataType> types, ParseTreeProperty<SymbolTable> scopes, SymbolTable symbolTable ) {
@@ -25,12 +25,13 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		return null;
 	}
 
-
 	@Override
 	public DataType visitExBool(MaximusParser.ExBoolContext ctx) {
 		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.BOOLEAN) ;
 	}
+
+
 
 	@Override
 	public DataType visitExAdd(MaximusParser.ExAddContext ctx) {
@@ -40,7 +41,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 			throw new CompilerException("DataTypes do not match!");
 		}
 		scopes.put(ctx, symbolTable);
-		return visit(ctx.left);
+		return addType(ctx,visit(ctx.left));
 	}
 
 	@Override
@@ -89,9 +90,12 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 	@Override
 	public DataType visitAssignment(MaximusParser.AssignmentContext ctx) {
 		String name = ctx.IDENTIFIER().getText();
-		Symbol s = symbolTable.lookUpLocal(name);
+		Symbol s = symbolTable.lookUp(name);
 		if(s == null){
 			throw new CompilerException("Variable " + name + " is not declared!");
+		}
+		if(s.getType() != visit(ctx.value())){
+			throw new CompilerException("Variable and values types do not match!");
 		}
 		scopes.put(ctx, symbolTable);
 		types.put(ctx,s.getType());
@@ -111,6 +115,15 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		return symbolTable.lookUp(name).getType();
 	}
 
+	@Override
+	public DataType visitExPrint(MaximusParser.ExPrintContext ctx) {
+		return addType(ctx,visit(ctx.expression()));
+	}
+
+	@Override
+	public DataType visitExParentheses(MaximusParser.ExParenthesesContext ctx) {
+		return addType(ctx,visit(ctx.expression()));
+	}
 
 	@Override
 	public DataType visitExCompareId(MaximusParser.ExCompareIdContext ctx) {
@@ -119,6 +132,9 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 
 		if(assigned == null || assigner == null){
 			throw new CompilerException("Variable not declared!");
+		}
+		if(assigned.getType() != assigner.getType()){
+			throw new CompilerException("Types do not match!");
 		}
 		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.BOOLEAN);
@@ -130,6 +146,9 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		Symbol symbol = symbolTable.lookUp(ctx.left.getText());
 		if(symbol == null){
 			throw new CompilerException("Variable not declared!");
+		}
+		if(symbol.getType() != visit(ctx.right)){
+			throw new CompilerException("Types dont match!");
 		}
 		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.BOOLEAN);
@@ -169,11 +188,40 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		return addType(ctx,function.getType());
 	}
 
+	@Override
+	public DataType visitWhileLoop(MaximusParser.WhileLoopContext ctx) {
+		if(visit(ctx.expression()) != DataType.BOOLEAN){
+			throw new CompilerException("Expression is not of type boolean!");
+		}
+		scopes.put(ctx,symbolTable);
+		visit(ctx.scope());
+		return null;
+	}
+
+	@Override
+	public DataType visitForLoop(MaximusParser.ForLoopContext ctx) {
+		scopes.put(ctx,symbolTable);
+		visit(ctx.scope());
+		return null;
+	}
+
+	@Override
+	public DataType visitCondition(MaximusParser.ConditionContext ctx) {
+		if(visit(ctx.expression()) != DataType.BOOLEAN){
+			throw new CompilerException("Expression not of type boolean!");
+		}
+		if(ctx.children.isEmpty()){
+			throw new CompilerException("Condition does nothing");
+		}
+		scopes.put(ctx,symbolTable);
+		visit(ctx.scope());
+		return null;
+	}
+
 	private DataType addType(ParseTree node, DataType type) {
 		types.put(node, type);
 		return type;
 	}
-
 
 
 }

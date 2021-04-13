@@ -105,6 +105,13 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExInc(MaximusParser.ExIncContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code multiCompare}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiCompare(MaximusParser.MultiCompareContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExString}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree

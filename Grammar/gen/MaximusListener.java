@@ -169,6 +169,18 @@ public interface MaximusListener extends ParseTreeListener {
 	 */
 	void exitExInc(MaximusParser.ExIncContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code multiCompare}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiCompare(MaximusParser.MultiCompareContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code multiCompare}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiCompare(MaximusParser.MultiCompareContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ExString}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
