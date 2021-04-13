@@ -45,13 +45,6 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 	}
 
 	@Override
-	public DataType visitExInc(MaximusParser.ExIncContext ctx) {
-
-		return addType(ctx, DataType.INT);
-	}
-
-
-	@Override
 	public DataType visitExString(MaximusParser.ExStringContext ctx) {
 		scopes.put(ctx,symbolTable);
 		return addType(ctx, DataType.STRING);
@@ -166,18 +159,58 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 
 	//:TODO check array
 	@Override
-	public DataType visitExArray(MaximusParser.ExArrayContext ctx) {
-		return super.visitExArray(ctx);
+	public DataType visitArrayGet(MaximusParser.ArrayGetContext ctx) {
+		ArraySymbol as = symbolTable.lookUpArray(ctx.IDENTIFIER().getText());
+		if(as == null){
+			throw new CompilerException("array" + ctx.IDENTIFIER().getText() + " not defined!");
+		}
+		if((as.getSize()-1) < Integer.parseInt(ctx.INT().getText())){
+			throw new CompilerException("Index is out of bounds of array");
+		}
+		scopes.put(ctx, symbolTable);
+		return addType(ctx, as.getDataType());
 	}
 
 	@Override
-	public DataType visitFunction(MaximusParser.FunctionContext ctx) {
-		if(symbolTable.lookUp(ctx.mainId.getText()) != null){
-			throw new CompilerException("Identifier already in use!");
-		} else {
-			return null;
+	public DataType visitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx) {
+		String name = ctx.IDENTIFIER().getText();
+		DataType type = symbolTable.getDataType(ctx.DECLARATION().getText());
+		if(symbolTable.lookUp(name) != null){
+			throw new CompilerException("Variable name already in use for something other than array");
 		}
+		if(type == DataType.ARRAY || type == DataType.OTHER){
+			throw new CompilerException("Not allowed to store these data types in an array");
+		}
+		symbolTable.addArray(name,Integer.parseInt(ctx.INT().getText()),type);
+		scopes.put(ctx,symbolTable);
+		return addType(ctx,DataType.ARRAY);
 	}
+
+	@Override
+	public DataType visitArrayPut(MaximusParser.ArrayPutContext ctx) {
+		ArraySymbol as = symbolTable.lookUpArray(ctx.IDENTIFIER().getText());
+		if(as == null){
+			throw new CompilerException("Array not yet declared or out of scope!");
+		}
+		if(as.getDataType() != visit(ctx.value())){
+			throw new CompilerException("Datatype not allowed to be stored in array");
+		}
+		if((as.getSize()-1) < Integer.parseInt(ctx.INT().getText())){
+			throw new CompilerException("Index is out of bounds of array");
+		}
+		scopes.put(ctx,symbolTable);
+
+		return super.visitArrayPut(ctx);
+	}
+
+//	@Override
+//	public DataType visitFunction(MaximusParser.FunctionContext ctx) {
+//		if(symbolTable.lookUp(ctx.mainId.getText()) != null){
+//			throw new CompilerException("Identifier already in use!");
+//		} else {
+//			return null;
+//		}
+//	}
 
 	@Override
 	public DataType visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx) {

@@ -14,7 +14,6 @@ expression:             '(' expression ')'                                      
                       | DECLARATION IDENTIFIER (ASSIGNER value)?                 #declaration
                       | left=expression MUL_OPS right=expression                 #exMul
                       | left=expression OPERATORS right=expression               #exAdd
-                      | expression INC_OP                                        #exInc
                       | left=IDENTIFIER COMPARATORS right=IDENTIFIER             #exCompareId
                       | left=IDENTIFIER COMPARATORS right=expression             #exCompareEx
                       | INT                                                      #ExInt
@@ -23,7 +22,9 @@ expression:             '(' expression ')'                                      
                       | DOUBLE                                                   #ExDouble
                       | IDENTIFIER                                               #exVariable
                       | left=expression LOGICALS right=expression                #multiCompare
-                      | 'arr' mainId=IDENTIFIER ASSIGNER OBJECT_INITIALIZER ('arr{' INT '}'|IDENTIFIER) #exArray
+                      | 'arr' mainId=IDENTIFIER  '{' INT ','DECLARATION'}'       #arrayDeclaration
+                      | IDENTIFIER '[' INT ']' ASSIGNER value                    #arrayPut
+                      | IDENTIFIER '[' INT ']'                                   #arrayGet
                       | 'show(' expression ')'                                   #exPrint
                       | scan                                                     #exScan
                       ;
@@ -48,7 +49,6 @@ parameter: DECLARATION IDENTIFIER (',')?;
 
 OPERATORS:  'add' | 'minus' ;
 MUL_OPS: 'times' | 'div' ;
-INC_OP: 'increm' | 'decrem';
 ASSIGNER: 'is';
 COMPARATORS: 'equals' | 'not_equals' | 'bigger' | 'smaller';
 LOGICALS: 'and' | 'or';

@@ -17,32 +17,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         this.symbols = symbols;
     }
 
-    //:TODO Write ByteCode For all these
-    @Override
-    public Void visitProgram(MaximusParser.ProgramContext ctx) {
-        return super.visitProgram(ctx);
-    }
-
-    @Override
-    public Void visitScope(MaximusParser.ScopeContext ctx) {
-        return super.visitScope(ctx);
-    }
-
-    @Override
-    public Void visitScan(MaximusParser.ScanContext ctx) {
-        return super.visitScan(ctx);
-    }
-
-    @Override
-    public Void visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx) {
-        return super.visitDeclaredFunction(ctx);
-    }
-
-    @Override
-    public Void visitStatement(MaximusParser.StatementContext ctx) {
-        return super.visitStatement(ctx);
-    }
-
     @Override
     public Void visitAssignment(MaximusParser.AssignmentContext ctx) {
         String name = ctx.IDENTIFIER().getText();
@@ -121,30 +95,30 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
                   }
               }
             }
-            case DOUBLE -> {
-                byteCode.add("dload " + left.getStoreNr());
-                byteCode.add("ldc 10000.0");
-                byteCode.add("dmul");
-                byteCode.add("d2i");
-                byteCode.add("dload " + right.getStoreNr());
-                byteCode.add("ldc 10000.0");
-                byteCode.add("dmul");
-                byteCode.add("d2i");
-
-                if(ctx.COMPARATORS().getText().equals("equals")){
-                    byteCode.add("if_icmpeq " + "isTrue" + labelCount);
-                    writeComparisonTrueOrFalse();
-                } else if (ctx.COMPARATORS().getText().equals("not_equals")){
-                    byteCode.add("if_icmpne " + "isTrue" + labelCount);
-                    writeComparisonTrueOrFalse();
-                } else if(ctx.COMPARATORS().getText().equals("bigger")){
-                    byteCode.add("if_icmpgt " + "isTrue" + labelCount);
-                    writeComparisonTrueOrFalse();
-                }else if(ctx.COMPARATORS().getText().equals("smaller")){
-                    byteCode.add("if_icmplt " + "isTrue" + labelCount);
-                    writeComparisonTrueOrFalse();
-                }
-            }
+//            case DOUBLE -> {
+//                byteCode.add("dload " + left.getStoreNr());
+//                byteCode.add("ldc 10000.0");
+//                byteCode.add("dmul");
+//                byteCode.add("d2i");
+//                byteCode.add("dload " + right.getStoreNr());
+//                byteCode.add("ldc 10000.0");
+//                byteCode.add("dmul");
+//                byteCode.add("d2i");
+//
+//                if(ctx.COMPARATORS().getText().equals("equals")){
+//                    byteCode.add("if_icmpeq " + "isTrue" + labelCount);
+//                    writeComparisonTrueOrFalse();
+//                } else if (ctx.COMPARATORS().getText().equals("not_equals")){
+//                    byteCode.add("if_icmpne " + "isTrue" + labelCount);
+//                    writeComparisonTrueOrFalse();
+//                } else if(ctx.COMPARATORS().getText().equals("bigger")){
+//                    byteCode.add("if_icmpgt " + "isTrue" + labelCount);
+//                    writeComparisonTrueOrFalse();
+//                }else if(ctx.COMPARATORS().getText().equals("smaller")){
+//                    byteCode.add("if_icmplt " + "isTrue" + labelCount);
+//                    writeComparisonTrueOrFalse();
+//                }
+//            }
         }
         return null;
     }
@@ -162,7 +136,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     @Override
     public Void visitExCompareEx(MaximusParser.ExCompareExContext ctx) {
         Symbol left = symbols.get(ctx).lookUp(ctx.left.getText());
-        Symbol right = symbols.get(ctx).lookUp(ctx.right.getText());
         labelCount++;
         switch (left.getType()){
             case INT, BOOLEAN ->
@@ -245,19 +218,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     }
 
     @Override
-    public Void visitExInc(MaximusParser.ExIncContext ctx) {
-        visit(ctx.expression());
-        byteCode.add("istore " + storeCount);
-        if("increm".equals(ctx.INC_OP().getText())){
-            byteCode.add("iinc " + storeCount + " 1");
-        } else {
-            byteCode.add("iinc " + storeCount + " -1");
-        }
-        storeCount++;
-        return null;
-    }
-
-    @Override
     public Void visitExString(MaximusParser.ExStringContext ctx) {
         byteCode.add("ldc " + ctx.getText());
         return null;
@@ -281,10 +241,6 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         return null;
     }
 
-    @Override
-    public Void visitExArray(MaximusParser.ExArrayContext ctx) {
-        return super.visitExArray(ctx);
-    }
 
     @Override
     public Void visitExDouble(MaximusParser.ExDoubleContext ctx) {
@@ -315,9 +271,71 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     }
 
     @Override
-    public Void visitFunction(MaximusParser.FunctionContext ctx) {
-        return super.visitFunction(ctx);
+    public Void visitArrayGet(MaximusParser.ArrayGetContext ctx) {
+        ArraySymbol as = symbols.get(ctx).lookUpArray(ctx.IDENTIFIER().getText());
+        byteCode.add("aload " + as.getStoreNumber());
+        byteCode.add("ldc " + ctx.INT().getText());
+        if(as.getDataType() == DataType.INT){
+            byteCode.add("iaload");
+        }
+        if(as.getDataType() == DataType.BOOLEAN){
+            byteCode.add("baload");
+        }
+        if(as.getDataType() == DataType.DOUBLE){
+            byteCode.add("daload");
+        }
+        if(as.getDataType() == DataType.STRING){
+            byteCode.add("aaload");
+        }
+        return null;
     }
+
+    @Override
+    public Void visitArrayPut(MaximusParser.ArrayPutContext ctx) {
+        ArraySymbol as = symbols.get(ctx).lookUpArray(ctx.IDENTIFIER().getText());
+        byteCode.add("aload " + as.getStoreNumber());
+        byteCode.add("ldc " + ctx.INT().getText());
+        visit(ctx.value());
+        if(as.getDataType() == DataType.INT){
+            byteCode.add("iastore");
+        }
+        if(as.getDataType() == DataType.BOOLEAN){
+            byteCode.add("bastore");
+        }
+        if(as.getDataType() == DataType.DOUBLE){
+            byteCode.add("dastore");
+        }
+        if(as.getDataType() == DataType.STRING){
+            byteCode.add("aastore");
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx) {
+        ArraySymbol as = symbols.get(ctx).lookUpArray(ctx.IDENTIFIER().getText());
+        byteCode.add("ldc " + ctx.INT().getText());
+        if(as.getDataType() == DataType.STRING){
+            byteCode.add("anewarray java/lang/string");
+        } else {
+            String datatype;
+            if(as.getDataType() == DataType.INT){
+                datatype = "int";
+            } else if(as.getDataType() == DataType.DOUBLE){
+                datatype = "double";
+            } else{
+                datatype = "boolean";
+            }
+            byteCode.add("newarray " + datatype);
+        }
+        byteCode.add("astore " + as.getStoreNumber());
+        return super.visitArrayDeclaration(ctx);
+    }
+
+//    @Override
+//    public Void visitFunction(MaximusParser.FunctionContext ctx) {
+//        return super.visitFunction(ctx);
+//    }
 
     @Override
     public Void visitExPrint(MaximusParser.ExPrintContext ctx) {

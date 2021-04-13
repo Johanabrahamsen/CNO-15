@@ -3,5 +3,6 @@ public enum DataType {
     STRING,
     BOOLEAN,
     DOUBLE,
+    ARRAY,
     OTHER
 }

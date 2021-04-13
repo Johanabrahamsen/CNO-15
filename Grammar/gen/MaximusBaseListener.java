@@ -63,18 +63,6 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExArray(MaximusParser.ExArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExArray(MaximusParser.ExArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExVariable(MaximusParser.ExVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -171,18 +159,6 @@ public class MaximusBaseListener implements MaximusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExInc(MaximusParser.ExIncContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExInc(MaximusParser.ExIncContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMultiCompare(MaximusParser.MultiCompareContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -190,6 +166,18 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultiCompare(MaximusParser.MultiCompareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayGet(MaximusParser.ArrayGetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayGet(MaximusParser.ArrayGetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -226,6 +214,30 @@ public class MaximusBaseListener implements MaximusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExInt(MaximusParser.ExIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayPut(MaximusParser.ArrayPutContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayPut(MaximusParser.ArrayPutContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

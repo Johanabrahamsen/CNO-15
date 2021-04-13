@@ -35,13 +35,6 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExCompareEx(MaximusParser.ExCompareExContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code exArray}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExArray(MaximusParser.ExArrayContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code exVariable}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
@@ -98,19 +91,19 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExPrint(MaximusParser.ExPrintContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code exInc}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExInc(MaximusParser.ExIncContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code multiCompare}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMultiCompare(MaximusParser.MultiCompareContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayGet}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayGet(MaximusParser.ArrayGetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExString}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -132,6 +125,20 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExInt(MaximusParser.ExIntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayPut}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayPut(MaximusParser.ArrayPutContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrayDeclaration}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExParentheses}
 	 * labeled alternative in {@link MaximusParser#expression}.

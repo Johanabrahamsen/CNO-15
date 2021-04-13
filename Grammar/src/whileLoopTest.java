@@ -2,17 +2,14 @@ public class whileLoopTest {
 
 
     public static void main(String[] args) {
-        int a = 5;
-        int b = 0;
-        whileLoopTest test = new whileLoopTest();
-        test.loop(a,b);
-    }
+        int[] a = new int[5];
+        String[] b = new String[2];
+        boolean[] c = new boolean[3];
+        double[] d = new double[4];
+        a[0] = 2;
+        a[1] = 3;
 
-
-    public void loop(int a, int b){
-        while(a > b){
-            b++;
-        }
+        System.out.println(a[0]);
     }
 
 }

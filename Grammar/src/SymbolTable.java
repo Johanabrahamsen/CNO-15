@@ -6,10 +6,12 @@ public class SymbolTable {
     private SymbolTable parentScope;
 
     private final HashMap<String,Symbol> symbols;
+    private final HashMap<String,ArraySymbol> arrays;
 
     public SymbolTable(int offset) {
         this.nextIndex = offset;
         this.symbols = new HashMap<>();
+        this.arrays = new HashMap<>();
     }
 
     public SymbolTable getParentScope() {
@@ -25,6 +27,14 @@ public class SymbolTable {
         return symbol;
     }
 
+    public ArraySymbol lookUpArray(String name){
+        ArraySymbol as = arrays.get(name);
+        if (as == null && parentScope != null) {
+            as = parentScope.lookUpArray(name);
+        }
+        return as;
+    }
+
     public void add(String name, DataType type) {
         symbols.put(name,new Symbol(name,type,nextIndex));
 
@@ -32,6 +42,16 @@ public class SymbolTable {
             nextIndex += 2;
         } else {
             nextIndex++;
+        }
+    }
+
+    public void addArray(String name, int size, DataType dataType){
+        arrays.put(name,new ArraySymbol(dataType,size,nextIndex));
+
+        if (dataType == DataType.DOUBLE){
+            nextIndex += (size * 2);
+        } else {
+            nextIndex += size;
         }
     }
 
