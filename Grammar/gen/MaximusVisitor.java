@@ -49,13 +49,6 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExBool(MaximusParser.ExBoolContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code assignment}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignment(MaximusParser.AssignmentContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code exCompareId}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
@@ -77,26 +70,19 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExScan(MaximusParser.ExScanContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code declaration}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDeclaration(MaximusParser.DeclarationContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code exPrint}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExPrint(MaximusParser.ExPrintContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code multiCompare}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMultiCompare(MaximusParser.MultiCompareContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exFunctionCall}
+	 * labeled alternative in {@link MaximusParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExFunctionCall(MaximusParser.ExFunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code arrayGet}
 	 * labeled alternative in {@link MaximusParser#expression}.
@@ -126,20 +112,6 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExInt(MaximusParser.ExIntContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arrayPut}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayPut(MaximusParser.ArrayPutContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arrayDeclaration}
-	 * labeled alternative in {@link MaximusParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ExParentheses}
 	 * labeled alternative in {@link MaximusParser#expression}.
 	 * @param ctx the parse tree
@@ -160,11 +132,29 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScan(MaximusParser.ScanContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MaximusParser#value}.
+	 * Visit a parse tree produced by {@link MaximusParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(MaximusParser.ValueContext ctx);
+	T visitDeclaration(MaximusParser.DeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(MaximusParser.AssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayDeclaration(MaximusParser.ArrayDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAssignment(MaximusParser.ArrayAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MaximusParser#whileLoop}.
 	 * @param ctx the parse tree
@@ -190,21 +180,27 @@ public interface MaximusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCondition(MaximusParser.ConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MaximusParser#function}.
+	 * Visit a parse tree produced by {@link MaximusParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunction(MaximusParser.FunctionContext ctx);
+	T visitFunctionDeclaration(MaximusParser.FunctionDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MaximusParser#declaredFunction}.
+	 * Visit a parse tree produced by {@link MaximusParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx);
+	T visitFunctionCall(MaximusParser.FunctionCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MaximusParser#parameter}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitParameter(MaximusParser.ParameterContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MaximusParser#print}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint(MaximusParser.PrintContext ctx);
 }

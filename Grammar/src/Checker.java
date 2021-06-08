@@ -87,7 +87,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 		if(s == null){
 			throw new CompilerException("Variable " + name + " is not declared!");
 		}
-		if(s.getType() != visit(ctx.value())){
+		if(s.getType() != visit(ctx.expression())){
 			throw new CompilerException("Variable and values types do not match!");
 		}
 		scopes.put(ctx, symbolTable);
@@ -109,9 +109,10 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 	}
 
 	@Override
-	public DataType visitExPrint(MaximusParser.ExPrintContext ctx) {
+	public DataType visitPrint(MaximusParser.PrintContext ctx) {
 		return addType(ctx,visit(ctx.expression()));
 	}
+
 
 	@Override
 	public DataType visitExParentheses(MaximusParser.ExParenthesesContext ctx) {
@@ -187,23 +188,22 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 	}
 
 	@Override
-	public DataType visitArrayPut(MaximusParser.ArrayPutContext ctx) {
+	public DataType visitArrayAssignment(MaximusParser.ArrayAssignmentContext ctx) {
 		ArraySymbol as = symbolTable.lookUpArray(ctx.IDENTIFIER().getText());
 		if(as == null){
 			throw new CompilerException("Array not yet declared or out of scope!");
 		}
-		if(as.getDataType() != visit(ctx.value())){
+		if(as.getDataType() != visit(ctx.expression())){
 			throw new CompilerException("Datatype not allowed to be stored in array");
 		}
 		if((as.getSize()-1) < Integer.parseInt(ctx.INT().getText())){
 			throw new CompilerException("Index is out of bounds of array");
 		}
 		scopes.put(ctx,symbolTable);
-
-		return super.visitArrayPut(ctx);
+		return super.visitArrayAssignment(ctx);
 	}
 
-//	@Override
+	//	@Override
 //	public DataType visitFunction(MaximusParser.FunctionContext ctx) {
 //		if(symbolTable.lookUp(ctx.mainId.getText()) != null){
 //			throw new CompilerException("Identifier already in use!");
@@ -213,7 +213,7 @@ public class Checker extends MaximusBaseVisitor<DataType> {
 //	}
 
 	@Override
-	public DataType visitDeclaredFunction(MaximusParser.DeclaredFunctionContext ctx) {
+	public DataType visitFunctionCall(MaximusParser.FunctionCallContext ctx) {
 		if(symbolTable.lookUp(ctx.mainId.getText()) == null){
 			throw new CompilerException("Function not declared");
 		}

@@ -22,7 +22,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         String name = ctx.IDENTIFIER().getText();
         SymbolTable st = symbols.get(ctx);
         Symbol s = symbols.get(ctx).lookUp(name);
-        visit(ctx.value());
+        visit(ctx.expression());
 
         switch (types.get(ctx)){
             case DOUBLE:
@@ -45,8 +45,8 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
     public Void visitDeclaration(MaximusParser.DeclarationContext ctx) {
         String name = ctx.IDENTIFIER().getText();
         Symbol s = symbols.get(ctx).lookUp(name);
-        if(ctx.value() != null){
-            visit(ctx.value());
+        if(ctx.expression() != null){
+            visit(ctx.expression());
         }
         switch (types.get(ctx)){
             case DOUBLE:
@@ -290,12 +290,13 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
         return null;
     }
 
+
     @Override
-    public Void visitArrayPut(MaximusParser.ArrayPutContext ctx) {
+    public Void visitArrayAssignment(MaximusParser.ArrayAssignmentContext ctx) {
         ArraySymbol as = symbols.get(ctx).lookUpArray(ctx.IDENTIFIER().getText());
         byteCode.add("aload " + as.getStoreNumber());
         byteCode.add("ldc " + ctx.INT().getText());
-        visit(ctx.value());
+        visit(ctx.expression());
         if(as.getDataType() == DataType.INT){
             byteCode.add("iastore");
         }
@@ -338,7 +339,7 @@ public class CodeGenerator extends MaximusBaseVisitor<Void>{
 //    }
 
     @Override
-    public Void visitExPrint(MaximusParser.ExPrintContext ctx) {
+    public Void visitPrint(MaximusParser.PrintContext ctx) {
         byteCode.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         visit(ctx.expression());
         switch (types.get(ctx)) {

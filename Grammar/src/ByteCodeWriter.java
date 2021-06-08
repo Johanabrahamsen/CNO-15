@@ -21,14 +21,14 @@ public class ByteCodeWriter {
 
     public static void main(String[] args) {
 
-        generateByteCode(getGoodProgram(1));
+        generateByteCode(getGoodProgram(4));
 
     }
 
     public static String getGoodProgram(int program){
         String[] programs = new String[5];
         programs[0] = "BEGIN{num a is 20$" +
-                "arr c{5,num}$" +
+                "arr c[5,num]$" +
                 "c[0] is a$" +
                 "show(c[0])$}";
         programs[1] = "BEGIN{booly a is invalid$" +

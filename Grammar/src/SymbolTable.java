@@ -7,11 +7,13 @@ public class SymbolTable {
 
     private final HashMap<String,Symbol> symbols;
     private final HashMap<String,ArraySymbol> arrays;
+    private final HashMap<String,FunctionSymbol> functions;
 
     public SymbolTable(int offset) {
         this.nextIndex = offset;
         this.symbols = new HashMap<>();
         this.arrays = new HashMap<>();
+        this.functions = new HashMap<>();
     }
 
     public SymbolTable getParentScope() {
@@ -33,6 +35,14 @@ public class SymbolTable {
             as = parentScope.lookUpArray(name);
         }
         return as;
+    }
+
+    public FunctionSymbol lookUpFunction(String name){
+        FunctionSymbol fs = functions.get(name);
+        if(fs == null && parentScope !=null){
+            fs = parentScope.lookUpFunction(name);
+        }
+        return fs;
     }
 
     public void add(String name, DataType type) {

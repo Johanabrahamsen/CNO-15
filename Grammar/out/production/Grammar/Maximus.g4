@@ -4,14 +4,22 @@ grammar Maximus;
 
 program: 'BEGIN' scope EOF;
 
-scope: '('parameter*')' scope | '{' statement* ('result ' expression)?'}';
+scope: '{' statement* (RETURN expression)?'}';
 
-statement:  expression '$' | conditional  |
-        whileLoop | forLoop | function;
+statement:  conditional  |
+            whileLoop |
+            forLoop |
+            declaration '$' |
+            assignment '$' |
+            arrayAssignment '$' |
+            functionDeclaration |
+            print '$'   |
+            functionCall '$' |
+            arrayDeclaration '$'
+            ;
+
 
 expression:             '(' expression ')'                                       #ExParentheses
-                      | IDENTIFIER ASSIGNER value                                #assignment
-                      | DECLARATION IDENTIFIER (ASSIGNER value)?                 #declaration
                       | left=expression MUL_OPS right=expression                 #exMul
                       | left=expression OPERATORS right=expression               #exAdd
                       | left=IDENTIFIER COMPARATORS right=IDENTIFIER             #exCompareId
@@ -22,16 +30,20 @@ expression:             '(' expression ')'                                      
                       | DOUBLE                                                   #ExDouble
                       | IDENTIFIER                                               #exVariable
                       | left=expression LOGICALS right=expression                #multiCompare
-                      | 'arr' mainId=IDENTIFIER  '{' INT ','DECLARATION'}'       #arrayDeclaration
-                      | IDENTIFIER '[' INT ']' ASSIGNER value                    #arrayPut
                       | IDENTIFIER '[' INT ']'                                   #arrayGet
-                      | 'show(' expression ')'                                   #exPrint
                       | scan                                                     #exScan
+                      | functionCall                                             #exFunctionCall
                       ;
 
 scan: 'ask()';
 
-value: (expression | declaredFunction | scan);
+declaration: DECLARATION IDENTIFIER (ASSIGNER expression)?;
+
+assignment:IDENTIFIER ASSIGNER expression;
+
+arrayDeclaration: ARRAY_TYPE mainId=IDENTIFIER  '[' INT ','DECLARATION']';
+
+arrayAssignment: IDENTIFIER '[' INT ']' ASSIGNER expression;
 
 whileLoop:'doOn(' expression ')' scope;
 
@@ -41,16 +53,20 @@ conditional: condition+;
 
 condition: 'condition(' expression ')' scope;
 
-function: mainDec=DECLARATION? mainId=IDENTIFIER scope;
+functionDeclaration: mainDec=DECLARATION? mainId=IDENTIFIER scope;
 
-declaredFunction: mainId=IDENTIFIER '('parameter*')';
+functionCall: mainId=IDENTIFIER '('(parameter)? | (parameter ',')+ parameter')';
 
-parameter: DECLARATION IDENTIFIER (',')?;
+parameter: DECLARATION IDENTIFIER;
 
+print: 'show(' expression ')';
+
+
+RETURN:  'result';
 OPERATORS:  'add' | 'minus' ;
 MUL_OPS: 'times' | 'div' ;
 ASSIGNER: 'is';
-COMPARATORS: 'equals' | 'not_equals' | 'bigger' | 'smaller';
+COMPARATORS: 'equals' | 'not_equals' | 'bigger' | 'smaller' | 'bigger_or_equals' | 'smaller_or_equals';
 LOGICALS: 'and' | 'or';
 DECLARATION: INT_TYPE | STRING_TYPE | BOOLEAN_TYPE | DOUBLE_TYPE;
 INT_TYPE: 'num';
@@ -58,7 +74,6 @@ STRING_TYPE: 'charCollection';
 BOOLEAN_TYPE: 'booly';
 DOUBLE_TYPE: 'numnum';
 ARRAY_TYPE: 'arr';
-OBJECT_INITIALIZER: 'create';
 INT: '0' |'-'? [1-9][0-9]*;
 STRING: '"' ~('\n'|'\r')* '"';
 BOOLEAN: 'valid' | 'invalid';
